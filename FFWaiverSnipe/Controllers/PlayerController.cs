@@ -17,10 +17,15 @@ namespace FFWaiverSnipe.Controllers
             ILogger log
         )
         {
-            string userId = req.Query["userid"].ToString();
-
+            var userId = req.Query["userId"].ToString();
+            var since = req.Query["since"].ToString();
             var endpoint = new MflEndpoint();
-            var playerEndpoint = new Uri($"{endpoint.Host}/{endpoint.Year}/export?TYPE=players&DETAILS=1&JSON=1");
+            string arguments = "export?TYPE=players&DETAILS=1&JSON=1";
+            if (!string.IsNullOrEmpty(since))
+            {
+                arguments += $"&since={since}";
+            }
+            var playerEndpoint = new Uri($"{endpoint.Host}/{endpoint.Year}/{arguments}");
 
             string playerResponse = await MflEndpointController.GetResponseString(playerEndpoint, endpoint, userId);
 
