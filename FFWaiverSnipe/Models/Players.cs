@@ -12,18 +12,18 @@ namespace FFWaiverSnipe.Models
         {
             var jObject = JObject.Parse(json);
             var players = jObject["players"]["player"].ToArray();
-            var playerList = new Dictionary<string, Player>();
+            var playerList = new List<Player>();
 
             if (players.Any())
             {
                 foreach (var player in players)
                 {
-                    playerList.Add(player["id"].ToString(), new Player(player.ToString()));
+                    playerList.Add(new Player(player.ToString()));
                 }
             }
 
             PlayerList = playerList;
         }
-        public Dictionary<string, Player> PlayerList { get; set; }
+        public List<Player> PlayerList { get; set; }
     }
 }
